@@ -1,0 +1,43 @@
+jobs:
+- job: Windows_VisualStudio
+  pool:
+    vmImage: 'windows-2019'
+  steps:
+  - script: |
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+      mkdir build
+      cd build
+      cmake .. -G "Visual Studio 16 2019" -A x64
+      MSBuild.exe ..\build\ShowEndOfLineChars.sln
+    displayName: $(Agent.JobName) build
+  - script: |
+      .\build\Release\ShowEndOfLineChars.exe
+    displayName: $(Agent.JobName) results
+
+- job: Ubuntu_GCC
+  pool:
+    vmImage: 'ubuntu-20.04'
+  steps:
+  - script: |
+      mkdir build
+      cd build
+      cmake ..
+      make
+    displayName: $(Agent.JobName) GCC build
+  - script: |
+      ./build/ShowEndOfLineChars
+    displayName: $(Agent.JobName) results
+
+- job: macOS1015
+  pool:
+    vmImage: 'macOS-10.15'
+  steps:
+  - script: |
+      mkdir build
+      cd build
+      cmake ..
+      make
+    displayName: $(Agent.JobName) Clang build
+  - script: |
+      ./build/ShowEndOfLineChars
+    displayName: $(Agent.JobName) results
