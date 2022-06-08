@@ -21,4 +21,5 @@ int main()
   {
     std::cout << "0x" << std::uppercase << std::hex << c << ' ';
   }
+  std::cout << '\n';
 }
