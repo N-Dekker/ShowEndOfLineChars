@@ -41,3 +41,17 @@ jobs:
   - script: |
       ./build/ShowEndOfLineChars
     displayName: $(Agent.JobName) results
+
+- job: macOS12
+  pool:
+    vmImage: 'macOS-12'
+  steps:
+  - script: |
+      mkdir build
+      cd build
+      cmake ..
+      make
+    displayName: $(Agent.JobName) Clang build
+  - script: |
+      ./build/ShowEndOfLineChars
+    displayName: $(Agent.JobName) results
